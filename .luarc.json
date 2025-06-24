@@ -1,0 +1,7 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "set_title"
+    ],
+    "runtime.unicodeName": true
+}
