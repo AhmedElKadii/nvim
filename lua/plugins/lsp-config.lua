@@ -19,6 +19,7 @@ return {
                     "ols",
 					"html",
 					"cssls",
+					"omnisharp",
                 },
             })
         end,
@@ -44,14 +45,13 @@ return {
 			lspconfig.lua_ls.setup({ capabilities = capabilities })
 			lspconfig.omnisharp.setup({
 				capabilities = capabilities,
-				cmd = { "OmniSharp" },
-				root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj"),
+				root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", ".git"),
 				enable_roslyn_analyzers = true,
 				organize_imports_on_format = true,
 				enable_import_completion = true,
 				handlers = {
-					["textDocument/definition"] = require('omnisharp_extended').handler,
-				}
+					["textDocument/definition"] = require("omnisharp_extended").handler,
+				},
 			})
 			lspconfig.gdscript.setup({ capabilities = capabilities })
 			lspconfig.clangd.setup({

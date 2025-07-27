@@ -400,21 +400,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end,
 })
 
--- function to switch between normal and relative numbers depending on mode
-vim.api.nvim_create_autocmd('ModeChanged', {
-  pattern = '*',
-  callback = function()
-    local mode = vim.api.nvim_get_mode().mode
-    if mode == 'n' or mode == 'i' or mode == 'ic' or mode == 'ix' or mode == 'c' then
-      vim.opt.relativenumber = false
-      vim.opt.number = true
-    else
-      vim.opt.relativenumber = true
-      vim.opt.number = false
-    end
-  end
-})
-
 -- Set initial state
 vim.opt.number = true
 vim.opt.relativenumber = false
