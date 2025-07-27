@@ -6,12 +6,19 @@ vim.cmd("set noexpandtab") -- Keep tabs instead of spaces
 vim.cmd("set tabstop=4")
 vim.cmd("set shiftwidth=4")
 
--- Adjust for web dev files
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "html", "css", "javascript", "typescript", "jsx", "tsx" },
+    pattern = { "html", "css", "javascript", "typescript", "jsx", "tsx", "yaml", "yml" },
     callback = function()
         vim.opt.tabstop = 2
         vim.opt.shiftwidth = 2
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "cs", "c", "cpp" },
+    callback = function()
+        vim.opt.tabstop = 4
+        vim.opt.shiftwidth = 4
     end,
 })
 
