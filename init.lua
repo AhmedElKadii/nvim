@@ -48,3 +48,5 @@ vim.cmd [[
 -- })
 
 vim.cmd("colorscheme lushwal")
+-- For init.lua
+vim.opt.mouse = ""
