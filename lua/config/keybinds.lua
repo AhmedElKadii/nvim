@@ -107,7 +107,6 @@ map('n', '<leader>tc', ':lua ToggleCopilot()<CR>', { noremap = true, silent = tr
 map('n', '<leader>e', ':NvimTreeToggle<CR>', {})
 
 -- dap
--- In lua/config/debugger-keybinds.lua
 local dap = require("dap")
 local dapui = require("dapui")
 
@@ -148,13 +147,11 @@ map('n', '<leader>nd', ':Neotree diagnostics reveal bottom<CR>', {})
 map('n', '<C-t>', ':below 10split | terminal<CR>clear<CR>', {noremap = true, silent = true})
 vim.cmd('autocmd TermOpen * startinsert')
 
--- Allow window navigation from terminal mode (like normal buffers)
 vim.api.nvim_set_keymap('t', '<C-h>', '<C-\\><C-n><C-w>h', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<C-j>', '<C-\\><C-n><C-w>j', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<C-k>', '<C-\\><C-n><C-w>k', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<C-l>', '<C-\\><C-n><C-w>l', {noremap = true, silent = true})
 
--- Optional: Easy way to exit terminal mode
 vim.api.nvim_set_keymap('t', '<C-x>', 'exit<CR>', {noremap = true, silent = true})
 
 vim.cmd('autocmd BufWinEnter,WinEnter term://* startinsert')

@@ -25,9 +25,15 @@ vim.api.nvim_create_autocmd("FileType", {
 -- side numbers
 vim.cmd("set nocursorline")
 
--- true colour
-vim.o.termguicolors = true
-vim.opt.termguicolors = true
+-- Better redraw without full screen refresh
+vim.opt.ttyfast = true
+vim.opt.ttimeoutlen = 50
+
+-- Force proper terminal handling without termguicolors
+vim.opt.termguicolors = false
+
+-- Better cursor and visual handling
+vim.opt.guicursor = ""
 
 -- clipboard
 vim.cmd("set clipboard^=unnamedplus")

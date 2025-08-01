@@ -9,7 +9,7 @@ return {
           normal = {
             a = { bg = colors, fg = "#ebdbb2", gui = 'bold' },  -- Set text color and bold effect for mode
             b = { bg = colors, fg = "#ebdbb2" },  -- Git branch color
-            c = { bg = 'NONE', fg = "#ebdbb2" },  -- Make the center section transparent
+            c = { bg = colors, fg = "#ebdbb2" },  -- Make the center section transparent
           },
           inactive = {
             a = { bg = 'NONE', fg = "#ebdbb2" },

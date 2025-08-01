@@ -32,6 +32,12 @@ vim.cmd [[
   hi! Type guifg=#C47F67
 ]]
 
+vim.api.nvim_create_autocmd({ "CursorMoved", "WinScrolled", "BufEnter", "BufLeave" }, {
+  callback = function()
+    vim.cmd("set termguicolors")
+  end
+})
+
 -- vim.api.nvim_create_autocmd("BufWritePost", {
 --   pattern = "~/.local/src/dwmblocks/config.h",
 --   callback = function()
@@ -48,5 +54,7 @@ vim.cmd [[
 -- })
 
 vim.cmd("colorscheme lushwal")
--- For init.lua
+vim.cmd("LushwalCompile")
+
 vim.opt.mouse = ""
+vim.opt.termguicolors = true
