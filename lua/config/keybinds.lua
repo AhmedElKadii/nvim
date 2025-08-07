@@ -165,6 +165,7 @@ map('n', '<leader>F', vim.lsp.buf.format, {})
 
 -- custom functions
 map('n', '<leader>n', ':DetermineFileType ', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>u', ':OpenLink<CR>', { desc = 'Open link under cursor', noremap = true, silent = true })
 
 -- quality of life
 map('n', '>', '<C-a>', {})

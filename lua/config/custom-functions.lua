@@ -434,27 +434,43 @@ vim.api.nvim_create_autocmd("VimEnter", { callback = start_watcher })
 -- Auto-stop when leaving Neovim
 vim.api.nvim_create_autocmd("VimLeavePre", { callback = stop_watcher })
 
--- Hyperlinks
-function OpenLinkUnderCursor()
+-- Open Hyperlinks
+local function open_link_under_cursor()
   local line = vim.api.nvim_get_current_line()
   local col = vim.fn.col('.') - 1
+  local link = nil
 
-  -- Pattern to detect [text](link)
-  for start_idx, _, match in line:gmatch('()%[.-%]%((.-)%)()') do
-    if col >= start_idx and col <= match then
-      local opener
-      local uname = vim.loop.os_uname().sysname
-      if uname == "Darwin" then
-        opener = "open"
-      else
-        opener = "xdg-open"
-      end
-
-      -- Launch using system's default handler
-      vim.fn.jobstart({ opener, match }, { detach = true })
-      return
+  -- Match all [text](link) patterns in the line
+  for start_idx_str, _, match, end_idx_str in line:gmatch('()(%[.-%]%((.-)%)())') do
+    local start_idx = tonumber(start_idx_str)
+    local end_idx = tonumber(end_idx_str)
+    if col >= start_idx and col <= end_idx then
+      link = match
+      break
     end
   end
 
-  print("No valid [text](link) found under cursor.")
+  if link then
+    -- Detect OS
+    local opener
+    local os_name = vim.loop.os_uname().sysname
+    if os_name == "Darwin" then
+      opener = "open"
+    elseif os_name == "Linux" then
+      opener = "xdg-open"
+    else
+      print("Unsupported OS: " .. os_name)
+      return
+    end
+
+    -- Launch using the default application
+    local ok = vim.fn.jobstart({ opener, link }, { detach = true })
+    if ok <= 0 then
+      print("Failed to open link: " .. link)
+    end
+  else
+    print("No [text](link) under cursor.")
+  end
 end
+
+vim.api.nvim_create_user_command("OpenLink", open_link_under_cursor, {})

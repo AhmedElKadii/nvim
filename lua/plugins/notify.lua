@@ -5,7 +5,7 @@ return {
 			stages = "slide",     -- This enables the slide effect
 			timeout = 3000,       -- Duration for the notification to stay before auto-closing (in milliseconds)
 			background_colour = "#000000", -- Optional: Set a background color (adjust as needed)
-			max_width = 50,
+			max_width = 100,
 		})
 
 		-- Use this to show notifications
