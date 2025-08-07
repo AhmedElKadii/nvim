@@ -433,3 +433,28 @@ vim.api.nvim_create_autocmd("VimEnter", { callback = start_watcher })
 
 -- Auto-stop when leaving Neovim
 vim.api.nvim_create_autocmd("VimLeavePre", { callback = stop_watcher })
+
+-- Hyperlinks
+function OpenLinkUnderCursor()
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.fn.col('.') - 1
+
+  -- Pattern to detect [text](link)
+  for start_idx, _, match in line:gmatch('()%[.-%]%((.-)%)()') do
+    if col >= start_idx and col <= match then
+      local opener
+      local uname = vim.loop.os_uname().sysname
+      if uname == "Darwin" then
+        opener = "open"
+      else
+        opener = "xdg-open"
+      end
+
+      -- Launch using system's default handler
+      vim.fn.jobstart({ opener, match }, { detach = true })
+      return
+    end
+  end
+
+  print("No valid [text](link) found under cursor.")
+end
