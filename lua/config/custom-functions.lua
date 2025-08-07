@@ -440,7 +440,6 @@ local function open_link_under_cursor()
   local col = vim.fn.col('.') - 1
   local link = nil
 
-  -- Match all [text](link) patterns in the line
   for start_idx_str, _, match, end_idx_str in line:gmatch('()(%[.-%]%((.-)%)())') do
     local start_idx = tonumber(start_idx_str)
     local end_idx = tonumber(end_idx_str)
@@ -451,6 +450,12 @@ local function open_link_under_cursor()
   end
 
   if link then
+    -- Convert relative path to absolute path if it looks like a file
+    if not link:match("^https?://") and not link:match("^file://") and not link:match("^/") and not link:match("^~") then
+      local buf_dir = vim.fn.expand('%:p:h')  -- current buffer's directory
+      link = vim.fn.fnamemodify(buf_dir .. "/" .. link, ":p")
+    end
+
     -- Detect OS
     local opener
     local os_name = vim.loop.os_uname().sysname
@@ -463,10 +468,9 @@ local function open_link_under_cursor()
       return
     end
 
-    -- Launch using the default application
     local ok = vim.fn.jobstart({ opener, link }, { detach = true })
     if ok <= 0 then
-      print("Failed to open link: " .. link)
+      print("Failed to open: " .. link)
     end
   else
     print("No [text](link) under cursor.")
