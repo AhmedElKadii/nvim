@@ -27,7 +27,7 @@ vim.api.nvim_create_user_command(
 local unityproject = io.open(vim.fn.getcwd()..'/ProjectSettings/ProjectSettings.asset', 'r')
 if unityproject then
     io.close(unityproject)
-    vim.fn.serverstart '/tmp/nvimsocket'
+	vim.fn.serverstart("/tmp/nvimsocket")
 end
 -- Custom function to create a new Unity C# script with default boilerplate code
 function CreateUnityCSharpScript(filename, classType)

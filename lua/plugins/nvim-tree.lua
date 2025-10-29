@@ -15,6 +15,7 @@ return {
 				enable = false,
 			},
 		})
+		vim.cmd("LushwalCompile")
 		vim.cmd("colorscheme lushwal")
 	end
 }

@@ -24,8 +24,7 @@ return {
 						cmp.config.compare.offset,
 						cmp.config.compare.exact,
 						cmp.config.compare.score,
-						cmp.config.compare.kind,  -- Prioritize by completion kind
-						-- Other comparators...
+						cmp.config.compare.kind,
 					}
 				},
 				snippet = {

@@ -7,6 +7,8 @@ require("config.options")
 require("config.keybinds")
 require("config.custom-functions")
 
+vim.opt.termguicolors = true
+
 vim.cmd("hi Normal guibg=none")
 vim.cmd("hi NormalFloat guibg=none") -- Make floating windows transparent
 vim.cmd("hi FloatBorder guibg=none") -- Make floating window borders transparent
@@ -54,7 +56,6 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "WinScrolled", "BufEnter", "BufLeav
 -- })
 
 vim.cmd("colorscheme lushwal")
-vim.cmd("LushwalCompile")
 
 vim.opt.mouse = ""
-vim.opt.termguicolors = true
+
