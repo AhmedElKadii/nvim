@@ -121,6 +121,10 @@ dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() 
 dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
 dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
 
+-- PIC Assembly
+vim.opt.makeprg = "gpasm %"
+vim.opt.errorformat = "%f:%l:%m"
+
 -- quality of life
 vim.cmd("set showtabline=0")
 vim.cmd("set scrolloff=3")

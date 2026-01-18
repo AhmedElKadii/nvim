@@ -10,7 +10,6 @@ return {
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					-- Existing servers
 					"lua_ls",
 					"clangd",
 					"markdown_oxide",
@@ -25,7 +24,27 @@ return {
 					"tailwindcss",
 					"astro",
 					"svelte",
-					"prismals"
+					"prismals",
+				},
+				handlers = {
+					function(server_name)
+						require("lspconfig")[server_name].setup({
+							capabilities = require("cmp_nvim_lsp").default_capabilities(),
+						})
+					end,
+					["clangd"] = function()
+						require("lspconfig").clangd.setup({
+							capabilities = require("cmp_nvim_lsp").default_capabilities(),
+							cmd = { "clangd", "--background-index" },
+							filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "arduino", "ino" },
+							root_dir = require("lspconfig").util.root_pattern(
+								"*.ino",
+								"compile_commands.json",
+								".clangd",
+								".git"
+							),
+						})
+					end,
 				},
 			})
 		end,
@@ -39,11 +58,8 @@ return {
 
 			require("typescript-tools").setup({
 				capabilities = capabilities,
-				-- No need to set on_attach here - your existing LSP keymaps will work automatically
-				-- Only add TypeScript-specific commands that aren't part of standard LSP
 				on_attach = function(client, bufnr)
 					local opts = { buffer = bufnr, silent = true }
-					-- Only TypeScript-specific commands (not available via standard LSP)
 					vim.keymap.set("n", "<leader>to", ":TSToolsOrganizeImports<CR>", opts)
 					vim.keymap.set("n", "<leader>tr", ":TSToolsRemoveUnusedImports<CR>", opts)
 					vim.keymap.set("n", "<leader>ta", ":TSToolsAddMissingImports<CR>", opts)
@@ -83,7 +99,6 @@ return {
 				},
 			})
 
-			-- Existing configurations
 			lspconfig.lua_ls.setup({ capabilities = capabilities })
 			lspconfig.omnisharp.setup({
 				capabilities = capabilities,
@@ -98,21 +113,25 @@ return {
 			lspconfig.gdscript.setup({ capabilities = capabilities })
 			lspconfig.clangd.setup({
 				capabilities = capabilities,
-				cmd = { "clangd" },
-				filetypes = { "c", "cpp", "arduino", "ino" },
-				root_dir = lspconfig.util.root_pattern("*.ino", "arduino-cli.yaml"),
+				cmd = { "clangd", "--background-index" },
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "arduino", "ino" },
+				root_dir = lspconfig.util.root_pattern(
+					"*.ino",
+					"compile_commands.json",
+					".clangd",
+					".git"
+				),
+				on_new_config = function(new_config, new_root_dir)
+					new_config.cmd = { "clangd", "--background-index" }
+				end,
 			})
 			lspconfig.basedpyright.setup({ capabilities = capabilities })
 			lspconfig.html.setup({ capabilities = capabilities })
 			lspconfig.jsonls.setup({ capabilities = capabilities })
 
-			-- REMOVED: lspconfig.ts_ls.setup({ capabilities = capabilities })
-			-- This is now handled by typescript-tools.nvim
-
 			lspconfig.markdown_oxide.setup({ capabilities = capabilities })
 			lspconfig.hydra_lsp.setup({ capabilities = capabilities })
 
-			-- Additional web development configurations
 			lspconfig.cssls.setup({ capabilities = capabilities })
 			lspconfig.eslint.setup({
 				capabilities = capabilities,
@@ -138,6 +157,11 @@ return {
 			lspconfig.astro.setup({ capabilities = capabilities })
 			lspconfig.svelte.setup({ capabilities = capabilities })
 			lspconfig.prismals.setup({ capabilities = capabilities })
+			vim.filetype.add({
+				extension = {
+					ino = 'cpp',
+				},
+			})
 		end,
 	},
 }

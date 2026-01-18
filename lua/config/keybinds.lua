@@ -122,39 +122,26 @@ map("n", "<leader>dB", function() dap.set_breakpoint(vim.fn.input('Breakpoint co
 map("n", "<leader>dl", function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, { desc = "Debug: Set Log Point" })
 
 -- UI control
-vim.keymap.set("n", "<leader>dr", function() dap.repl.open() end, { desc = "Debug: Open REPL" })
-vim.keymap.set("n", "<leader>du", function() dapui.toggle() end, { desc = "Debug: Toggle UI" })
+map("n", "<leader>dr", function() dap.repl.open() end, { desc = "Debug: Open REPL" })
+map("n", "<leader>du", function() dapui.toggle() end, { desc = "Debug: Toggle UI" })
 
 -- diagnostics improvements
-vim.keymap.set('n', '<C-e>', function()
+map('n', '<C-e>', function()
   vim.diagnostic.open_float({ scope = 'line', border = 'rounded' })
 end, { desc = 'Show diagnostics in floating window' })
 
-vim.keymap.set('n', '<C-S-e>', function()
+map('n', '<C-S-e>', function()
   vim.diagnostic.open_float({ scope = 'buffer', border = 'rounded' })
 end, { desc = 'Show all buffer diagnostics in floating window' })
 
 -- Telescope integration
-vim.keymap.set("n", "<leader>dtc", function() require('telescope').extensions.dap.commands{} end, { desc = "Debug: Commands" })
-vim.keymap.set("n", "<leader>dtb", function() require('telescope').extensions.dap.list_breakpoints{} end, { desc = "Debug: List Breakpoints" })
-vim.keymap.set("n", "<leader>dtv", function() require('telescope').extensions.dap.variables{} end, { desc = "Debug: Variables" })
-vim.keymap.set("n", "<leader>dtf", function() require('telescope').extensions.dap.frames{} end, { desc = "Debug: Frames" })
+map("n", "<leader>dtc", function() require('telescope').extensions.dap.commands{} end, { desc = "Debug: Commands" })
+map("n", "<leader>dtb", function() require('telescope').extensions.dap.list_breakpoints{} end, { desc = "Debug: List Breakpoints" })
+map("n", "<leader>dtv", function() require('telescope').extensions.dap.variables{} end, { desc = "Debug: Variables" })
+map("n", "<leader>dtf", function() require('telescope').extensions.dap.frames{} end, { desc = "Debug: Frames" })
 
 -- neotree diagnostics
 map('n', '<leader>nd', ':Neotree diagnostics reveal bottom<CR>', {})
-
--- terminal
-map('n', '<C-t>', ':below 10split | terminal<CR>clear<CR>', {noremap = true, silent = true})
-vim.cmd('autocmd TermOpen * startinsert')
-
-vim.api.nvim_set_keymap('t', '<C-h>', '<C-\\><C-n><C-w>h', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<C-j>', '<C-\\><C-n><C-w>j', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<C-k>', '<C-\\><C-n><C-w>k', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<C-l>', '<C-\\><C-n><C-w>l', {noremap = true, silent = true})
-
-vim.api.nvim_set_keymap('t', '<C-x>', 'exit<CR>', {noremap = true, silent = true})
-
-vim.cmd('autocmd BufWinEnter,WinEnter term://* startinsert')
 
 -- lsp
 map('n', 'K', vim.lsp.buf.hover, {})
@@ -165,7 +152,15 @@ map('n', '<leader>F', vim.lsp.buf.format, {})
 
 -- custom functions
 map('n', '<leader>n', ':DetermineFileType ', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>u', ':OpenLink<CR>', { desc = 'Open link under cursor', noremap = true, silent = true })
+map('n', '<leader>u', ':OpenLink<CR>', { desc = 'Open link under cursor', noremap = true, silent = true })
+
+map("n", "<leader>b", function()
+  vim.cmd("!gpasm %")
+end, { desc = "Assemble PIC ASM" })
+
+map('n', '<leader>p', ':QuickLook<CR>', { noremap = true, silent = true })
+map('n', '<C-t>', ':ToggleTerm<CR>', { noremap = true, silent = true })
+map('n', '<C-l>z', ':ToggleTerm<CR>lz<CR>', { noremap = true, silent = true })
 
 -- quality of life
 map('n', '>', '<C-a>', {})

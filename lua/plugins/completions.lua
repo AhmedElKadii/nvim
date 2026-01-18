@@ -48,27 +48,39 @@ return {
 					["<C-e>"] = cmp.mapping.complete(),
 					["<C-d>"] = cmp.mapping.close(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
-					["<C-n>"] = cmp.mapping.select_next_item(),
-					["<C-p>"] = cmp.mapping.select_prev_item(),
+					["<C-n>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						else
+							cmp.complete()
+						end
+					end, { "i", "s" }),
+
+					["<C-p>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						else
+							cmp.complete()
+						end
+					end, { "i", "s" }),
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
-					{ name = "luasnip" }, -- For luasnip users.
+					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "lua-latex-symbols", option = { cache = true } },
 				}, {
 					{ name = "buffer" },
-				}),
+				})
 			})
 
-			-- Make nvim-cmp's completion and documentation windows transparent
-			vim.cmd("hi PMenu guibg=none") -- Make the completion window transparent
-			vim.cmd("hi PmenuSel guibg=none") -- Make the selected item in the completion window transparent
-			vim.cmd("hi PmenuSbar guibg=none") -- Transparent scrollbar background
-			vim.cmd("hi PmenuThumb guibg=none") -- Transparent scrollbar thumb
+			vim.cmd("hi PMenu guibg=none")
+			vim.cmd("hi PmenuSel guibg=none")
+			vim.cmd("hi PmenuSbar guibg=none")
+			vim.cmd("hi PmenuThumb guibg=none")
 
-			vim.cmd("hi NormalFloat guibg=none") -- Transparent background for floating windows (documentation)
-			vim.cmd("hi FloatBorder guibg=none") -- Transparent borders for floating windows
+			vim.cmd("hi NormalFloat guibg=none")
+			vim.cmd("hi FloatBorder guibg=none")
 		end,
 	},
 }

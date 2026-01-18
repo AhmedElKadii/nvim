@@ -34,6 +34,13 @@ vim.cmd [[
   hi! Type guifg=#C47F67
 ]]
 
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+    pattern = "*.ino",
+    callback = function()
+        vim.bo.filetype = "cpp"
+    end,
+})
+
 vim.api.nvim_create_autocmd({ "CursorMoved", "WinScrolled", "BufEnter", "BufLeave" }, {
   callback = function()
     vim.cmd("set termguicolors")
@@ -58,4 +65,13 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "WinScrolled", "BufEnter", "BufLeav
 vim.cmd("colorscheme lushwal")
 
 vim.opt.mouse = ""
-
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "asm",
+  callback = function()
+    vim.cmd([[
+      syntax keyword picRegister PORTA PORTB PORTC TRISA TRISB TRISC
+      syntax keyword picRegister STATUS INTCON OPTION_REG
+      highlight link picRegister Constant
+    ]])
+  end
+})

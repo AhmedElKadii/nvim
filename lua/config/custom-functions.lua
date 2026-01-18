@@ -478,3 +478,21 @@ local function open_link_under_cursor()
 end
 
 vim.api.nvim_create_user_command("OpenLink", open_link_under_cursor, {})
+
+-- quick view
+vim.api.nvim_create_user_command('QuickLook', function()
+  local file = vim.fn.expand('%:p')
+  if file == '' then
+    vim.notify('No file in current buffer', vim.log.levels.WARN)
+    return
+  end
+
+  vim.fn.jobstart({'qlmanage', '-p', file}, {
+    detach = true,
+    on_stderr = function(_, data)
+      if data then
+        vim.notify('Quick Look error: ' .. table.concat(data, '\n'), vim.log.levels.ERROR)
+      end
+    end
+  })
+end, {})
