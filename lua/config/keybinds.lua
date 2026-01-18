@@ -160,7 +160,6 @@ end, { desc = "Assemble PIC ASM" })
 
 map('n', '<leader>p', ':QuickLook<CR>', { noremap = true, silent = true })
 map('n', '<C-t>', ':ToggleTerm<CR>', { noremap = true, silent = true })
-map('n', '<C-l>z', ':ToggleTerm<CR>lz<CR>', { noremap = true, silent = true })
 
 -- quality of life
 map('n', '>', '<C-a>', {})

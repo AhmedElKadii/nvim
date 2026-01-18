@@ -4,7 +4,9 @@ return {
 	opts = {
 		direction = 'float',
 		float_opts = {
-			border = 'curved'
+			border = 'curved',
+			width = 120,
+			height = 33
 		}
-	}
+	},
 }

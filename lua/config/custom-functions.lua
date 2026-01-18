@@ -496,3 +496,30 @@ vim.api.nvim_create_user_command('QuickLook', function()
     end
   })
 end, {})
+
+-- lazygit terminal
+local Terminal  = require('toggleterm.terminal').Terminal
+
+local lazygit = Terminal:new({
+	cmd = "lazygit",
+	dir = "git_dir",
+	direction = "float",
+	float_opts = {
+		border = 'curved',
+		width = 120,
+		height = 33
+	},
+	on_open = function(term)
+		vim.cmd("startinsert!")
+		vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+	end,
+	on_close = function(term)
+		vim.cmd("startinsert!")
+	end,
+})
+
+function Lazygit_Toggle()
+	lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<C-l>z", "<cmd>lua Lazygit_Toggle()<CR>", {noremap = true, silent = true})
